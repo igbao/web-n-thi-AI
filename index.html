@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ôn Thi Kết Thúc Học Phần: Ứng Dụng AI</title>
+  <meta name="description" content="Hệ thống web ôn thi trắc nghiệm toàn diện môn Ứng dụng AI, bao quát 100% nội dung 6 tài liệu học phần.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="light-theme">
+  <!-- TOP HEADER -->
+  <header class="app-header">
+    <div class="header-container">
+      <div class="brand-area" id="btnGoHome" title="Về trang chủ">
+        <div class="brand-logo">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2a4 4 0 0 1 4 4c0 1.95-1.4 3.58-3.25 3.93L12 10v4"></path>
+            <circle cx="12" cy="18" r="1.5"></circle>
+            <path d="M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0z"></path>
+          </svg>
+        </div>
+        <div class="brand-text">
+          <h1 class="brand-title">ỨNG DỤNG AI</h1>
+          <span class="brand-subtitle">Ôn Thi Kết Thúc Học Phần • 208 Câu Trắc Nghiệm</span>
+        </div>
+      </div>
+
+      <!-- Quick Stats & Actions in Header -->
+      <div class="header-actions">
+        <div class="stat-pill" title="Tổng tiến độ ôn tập">
+          <span class="stat-icon">📊</span>
+          <span id="headerProgressText">0 / 208 đã làm</span>
+        </div>
+        <div class="stat-pill star-pill" id="btnFilterStarredHeader" title="Xem các câu đánh dấu sao">
+          <span class="stat-icon">⭐</span>
+          <span id="headerStarredCount">0 đã lưu</span>
+        </div>
+        <button class="btn-icon theme-toggle" id="btnThemeToggle" title="Đổi giao diện Sáng / Tối">
+          <span class="theme-icon-light">☀️</span>
+          <span class="theme-icon-dark">🌙</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN CONTAINER -->
+  <main class="app-main">
+
+    <!-- VIEW 1: HOME / CHAPTER SELECTION VIEW -->
+    <section id="viewHome" class="view-section active">
+      <!-- Hero Banner -->
+      <div class="hero-banner">
+        <div class="hero-content">
+          <span class="hero-badge">Bao Quát 100% Nội Dung Tài Liệu • Có Giải Thích Chi Tiết</span>
+          <h2 class="hero-title">Ngân Hàng Câu Hỏi Ôn Tập Môn Ứng Dụng AI</h2>
+          <p class="hero-desc">
+            Hệ thống 208 câu hỏi trắc nghiệm 4 đáp án biên soạn chuẩn xác theo từng slide bài giảng và tài liệu học phần. Tự do lựa chọn ôn tập từng chương hoặc thi thử tổng hợp với đồng hồ bấm giờ.
+          </p>
+          <div class="hero-actions">
+            <button class="btn-primary" id="btnStartAllPractice">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+              Luyện Tập Toàn Bộ 208 Câu
+            </button>
+            <button class="btn-secondary" id="btnStartAllExam">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+              Thi Thử Đề Tổng Hợp (40 câu ngẫu nhiên)
+            </button>
+            <button class="btn-subtle" id="btnResetAllProgress" title="Xóa lịch sử làm bài để ôn lại từ đầu">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path><path d="M3 3v5h5"></path></svg>
+              Đặt lại tiến độ
+            </button>
+          </div>
+        </div>
+
+        <div class="hero-stats-card">
+          <div class="stats-card-header">
+            <h4>Tiến Độ Tổng Thể</h4>
+            <span class="stats-percent" id="overallPercent">0%</span>
+          </div>
+          <div class="progress-bar-wrap">
+            <div class="progress-bar-fill" id="overallProgressFill" style="width: 0%"></div>
+          </div>
+          <div class="stats-mini-grid">
+            <div class="mini-stat">
+              <span class="mini-label">Đã hoàn thành</span>
+              <span class="mini-val" id="statCompletedCount">0/208</span>
+            </div>
+            <div class="mini-stat">
+              <span class="mini-label">Số câu đúng</span>
+              <span class="mini-val text-success" id="statCorrectCount">0</span>
+            </div>
+            <div class="mini-stat">
+              <span class="mini-label">Số câu sai</span>
+              <span class="mini-val text-danger" id="statIncorrectCount">0</span>
+            </div>
+            <div class="mini-stat">
+              <span class="mini-label">Đánh dấu sao</span>
+              <span class="mini-val text-warning" id="statBookmarkedCount">0</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mode Selector Notice -->
+      <div class="mode-info-bar">
+        <div class="mode-tip">
+          <span class="mode-tip-icon">💡</span>
+          <span><strong>Mẹo ôn thi:</strong> Ở chế độ <em>Luyện tập</em>, bạn sẽ biết ngay Đúng/Sai và xem giải thích chi tiết khi chọn đáp án. Ở chế độ <em>Thi thử</em>, bạn sẽ làm bài với đồng hồ bấm giờ và xem bảng điểm phân tích sau khi nộp bài!</span>
+        </div>
+      </div>
+
+      <!-- Chapter Grid Section -->
+      <div class="section-title-wrap">
+        <h3 class="section-heading">Chọn Chương Ôn Tập</h3>
+        <span class="section-subheading">Phân loại chi tiết theo 6 tài liệu bài học</span>
+      </div>
+
+      <div class="chapters-grid" id="chaptersGrid">
+        <!-- Rendered dynamically by JavaScript -->
+      </div>
+    </section>
+
+    <!-- VIEW 2: QUIZ / PRACTICE VIEW -->
+    <section id="viewQuiz" class="view-section">
+      <!-- Quiz Navigation Bar -->
+      <div class="quiz-nav-bar">
+        <div class="quiz-nav-left">
+          <button class="btn-back" id="btnBackToHome">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+            Quay lại danh sách chương
+          </button>
+          <div class="quiz-chapter-tag">
+            <span class="chapter-badge" id="quizChapterBadge">Chương 1</span>
+            <span class="quiz-topic-badge" id="quizTopicBadge">Chủ đề</span>
+          </div>
+        </div>
+
+        <div class="quiz-nav-center">
+          <!-- Timer for Exam Mode -->
+          <div class="exam-timer-box" id="examTimerBox" style="display: none;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+            <span id="examTimerDisplay">30:00</span>
+          </div>
+        </div>
+
+        <div class="quiz-nav-right">
+          <button class="btn-tool" id="btnToggleBookmark" title="Đánh dấu câu hỏi này để xem lại (Phím B)">
+            <span class="bookmark-icon">⭐</span>
+            <span class="btn-tool-text">Đánh dấu</span>
+          </button>
+          <button class="btn-tool" id="btnShuffleQuiz" title="Xáo trộn thứ tự câu hỏi và đáp án">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 3 21 3 21 8"></polyline><line x1="4" y1="20" x2="21" y2="3"></line><polyline points="21 16 21 21 16 21"></polyline><line x1="15" y1="15" x2="21" y2="21"></line><line x1="4" y1="4" x2="9" y2="9"></line></svg>
+            <span class="btn-tool-text">Xáo trộn</span>
+          </button>
+          <button class="btn-submit-exam" id="btnSubmitExam" style="display: none;">
+            Nộp Bài Thi
+          </button>
+        </div>
+      </div>
+
+      <!-- Quiz Main Layout (Left: Question Card, Right: Navigation Palette) -->
+      <div class="quiz-layout">
+        
+        <!-- Left Column: Question Area -->
+        <div class="quiz-content-col">
+          <!-- Progress Info -->
+          <div class="quiz-progress-header">
+            <div class="progress-info-text">
+              <span class="current-q-index" id="currentQDisplay">Câu 1</span>
+              <span class="total-q-count" id="totalQDisplay">/ 35 câu</span>
+            </div>
+            <div class="mode-badge-pill" id="modeBadgePill">
+              <span class="dot-indicator"></span>
+              <span id="modeBadgeText">Chế độ Luyện Tập</span>
+            </div>
+          </div>
+
+          <div class="quiz-progressbar-track">
+            <div class="quiz-progressbar-bar" id="quizProgressBar" style="width: 3%"></div>
+          </div>
+
+          <!-- Question Card Container -->
+          <div class="question-card" id="questionCard">
+            <div class="question-header">
+              <span class="q-number-pill" id="qNumPill">CÂU HỎI 1</span>
+              <span class="q-source-doc" id="qSourceDoc">Tài liệu: Chapter 1</span>
+            </div>
+
+            <h3 class="question-text" id="questionText">
+              Nội dung câu hỏi đang được tải...
+            </h3>
+
+            <!-- 4 Options Container -->
+            <div class="options-list" id="optionsList">
+              <!-- Rendered dynamically by JavaScript -->
+            </div>
+
+            <!-- Detailed Explanation Box (Appears in Practice mode upon selection) -->
+            <div class="explanation-box" id="explanationBox" style="display: none;">
+              <div class="explanation-header">
+                <span class="exp-icon">💡</span>
+                <h4>Giải Thích Chi Tiết</h4>
+              </div>
+              <div class="explanation-body" id="explanationText">
+                Giải thích nội dung kiến thức trích dẫn từ bài học...
+              </div>
+            </div>
+
+            <!-- Bottom Navigation Controls inside Card -->
+            <div class="question-card-footer">
+              <div class="footer-left">
+                <button class="btn-nav" id="btnPrevQuestion">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+                  Câu trước
+                </button>
+              </div>
+
+              <div class="footer-center">
+                <button class="btn-ghost-sm" id="btnResetQuestion" title="Làm lại câu này">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path><path d="M3 3v5h5"></path></svg>
+                  Làm lại câu này
+                </button>
+              </div>
+
+              <div class="footer-right">
+                <button class="btn-nav btn-nav-primary" id="btnNextQuestion">
+                  Câu tiếp theo
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Keyboard Shortcuts Tip -->
+          <div class="keyboard-hints">
+            <span>Phím tắt:</span>
+            <span class="kbd">1</span>/<span class="kbd">2</span>/<span class="kbd">3</span>/<span class="kbd">4</span> hoặc <span class="kbd">A</span>/<span class="kbd">B</span>/<span class="kbd">C</span>/<span class="kbd">D</span>: Chọn đáp án •
+            <span class="kbd">←</span> / <span class="kbd">→</span>: Câu trước / tiếp •
+            <span class="kbd">B</span>: Đánh dấu sao ⭐
+          </div>
+        </div>
+
+        <!-- Right Column: Question Palette & Filter -->
+        <aside class="quiz-sidebar-col">
+          <div class="palette-card">
+            <div class="palette-header">
+              <h4 class="palette-title">Danh Sách Câu Hỏi</h4>
+              <span class="palette-status-count" id="paletteAnsweredCount">0/35</span>
+            </div>
+
+            <!-- Question Filter Tabs -->
+            <div class="palette-filters">
+              <button class="filter-tab active" data-filter="all">Tất cả</button>
+              <button class="filter-tab" data-filter="unanswered">Chưa làm</button>
+              <button class="filter-tab" data-filter="incorrect">Làm sai ❌</button>
+              <button class="filter-tab" data-filter="starred">Đánh dấu ⭐</button>
+            </div>
+
+            <!-- Legend -->
+            <div class="palette-legend">
+              <div class="legend-item"><span class="legend-dot dot-current"></span> Hiện tại</div>
+              <div class="legend-item"><span class="legend-dot dot-correct"></span> Đúng</div>
+              <div class="legend-item"><span class="legend-dot dot-incorrect"></span> Sai</div>
+              <div class="legend-item"><span class="legend-dot dot-answered"></span> Đã chọn</div>
+              <div class="legend-item"><span class="legend-dot dot-starred"></span> Đã lưu ⭐</div>
+            </div>
+
+            <!-- Numbers Grid -->
+            <div class="questions-numbers-grid" id="questionsNumbersGrid">
+              <!-- Rendered dynamically -->
+            </div>
+          </div>
+        </aside>
+
+      </div>
+    </section>
+
+    <!-- VIEW 3: EXAM RESULT MODAL / OVERLAY -->
+    <div id="examResultModal" class="modal-overlay" style="display: none;">
+      <div class="modal-card">
+        <div class="modal-header">
+          <div class="result-badge-wrap">
+            <span class="result-trophy" id="resultTrophy">🏆</span>
+          </div>
+          <h3 class="modal-title" id="resultTitle">KẾT QUẢ BÀI THI</h3>
+          <p class="modal-subtitle" id="resultSubtitle">Môn Ứng Dụng AI - Thi Kết Thúc Học Phần</p>
+        </div>
+
+        <div class="result-score-summary">
+          <div class="score-circle-wrap">
+            <div class="score-big" id="resultScoreTen">8.5</div>
+            <div class="score-scale">/ 10 điểm</div>
+          </div>
+
+          <div class="result-metrics">
+            <div class="metric-row">
+              <span class="metric-label">Số câu đúng:</span>
+              <span class="metric-value text-success" id="resultCorrectCount">34</span>
+            </div>
+            <div class="metric-row">
+              <span class="metric-label">Số câu sai:</span>
+              <span class="metric-value text-danger" id="resultIncorrectCount">6</span>
+            </div>
+            <div class="metric-row">
+              <span class="metric-label">Tỷ lệ chính xác:</span>
+              <span class="metric-value text-primary" id="resultAccuracy">85%</span>
+            </div>
+            <div class="metric-row">
+              <span class="metric-label">Thời gian làm bài:</span>
+              <span class="metric-value" id="resultTimeSpent">18 phút 45 giây</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Breakdown by chapter -->
+        <div class="result-chapter-breakdown" id="resultChapterBreakdown">
+          <h5>Phân Tích Năng Lực Từng Chương</h5>
+          <div class="breakdown-list" id="breakdownList">
+            <!-- Rendered by JS -->
+          </div>
+        </div>
+
+        <div class="modal-actions">
+          <button class="btn-primary" id="btnReviewExamQuestions">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+            Xem Lại Chi Tiết Các Câu Sai
+          </button>
+          <button class="btn-secondary" id="btnRetakeExam">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1 4 1 10 7 10"></polyline><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path></svg>
+            Làm Lại Đề Này
+          </button>
+          <button class="btn-subtle" id="btnCloseResultModal">
+            Về Trang Chủ
+          </button>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="app-footer">
+    <div class="footer-container">
+      <p>© 2026 Học phần Ứng dụng AI • Ngân hàng 208 câu hỏi trắc nghiệm chất lượng cao.</p>
+      <p class="footer-note">Biên soạn đầy đủ theo toàn bộ 6 tài liệu: Chapter 1 & 2, Prompt Engineering (CRISP & RCIFENI-O), AI in Organization, AI Limits, và AI Future (Andrew Ng).</p>
+    </div>
+  </footer>
+
+  <!-- SCRIPTS -->
+  <script src="questions.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
